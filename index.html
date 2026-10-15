@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Road to Revolution — Returning History to Circulation | Jinheng Wu</title>
-  <meta name="description" content="Additional Application Material: American Revolution Card Game Design, 10,000-Game Monte Carlo Python Simulation, and Historiographical Analysis by Jinheng Wu.">
+  <title>Road to Revolution: Game Rules & Historical Simulation | Jinheng Wu</title>
+  <meta name="description" content="Additional Application Material: Official Rulebook, Game Mechanics, 10,000-Game Python Simulation, and Historiographical Essay by Jinheng Wu.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -160,6 +160,104 @@
       margin-bottom: 24px;
     }
 
+    /* Rulebook Showcase */
+    .rulebook-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 20px 0 28px;
+    }
+
+    .rulebook-photo-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .rulebook-photo-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+      border-color: #cfc5b6;
+    }
+
+    .rulebook-photo-wrap {
+      width: 100%;
+      height: 480px;
+      background: #f1ede5;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rulebook-photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .rulebook-photo-item:hover .rulebook-photo-wrap img {
+      transform: scale(1.02);
+    }
+
+    .rulebook-caption {
+      padding: 14px 16px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .rulebook-caption small {
+      display: block;
+      color: var(--accent);
+      font-size: 0.76rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    /* Rules Breakdown */
+    .rules-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      margin: 16px 0;
+    }
+
+    .rules-table th, .rules-table td {
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      text-align: left;
+    }
+
+    .rules-table th {
+      background: var(--surface-subtle);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .faction-badge {
+      display: inline-block;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+
+    .faction-general { background: #fae8e6; color: #923424; }
+    .faction-reinforce { background: #e8f0fe; color: #1a56db; }
+    .faction-enemy { background: #f1f3f5; color: #343a40; }
+    .faction-rebel { background: #fef3d6; color: #b45309; }
+
     /* Cards Gallery */
     .cards-grid {
       display: grid;
@@ -250,17 +348,9 @@
       border-radius: 999px;
     }
 
-    .fill-general {
-      background: #923424;
-    }
-
-    .fill-enemy {
-      background: #264a7f;
-    }
-
-    .fill-rebel {
-      background: #d48332;
-    }
+    .fill-general { background: #923424; }
+    .fill-enemy { background: #264a7f; }
+    .fill-rebel { background: #d48332; }
 
     /* Essay blockquote */
     .essay-box {
@@ -348,7 +438,13 @@
       font-size: 0.88rem;
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
+      .rulebook-grid {
+        grid-template-columns: 1fr;
+      }
+      .rulebook-photo-wrap {
+        height: 380px;
+      }
       .stats-grid {
         grid-template-columns: 1fr;
       }
@@ -363,40 +459,40 @@
 </head>
 <body>
 
-  <!-- Header & Hook -->
+  <!-- Header -->
   <header>
     <div class="container">
-      <span class="badge">Game Design &bull; Python Simulation &bull; Historical Modeling</span>
+      <span class="badge">Game Design &bull; Mechanics &bull; 10,000 Python Simulations</span>
       <h1>Road to Revolution: Making History Playable</h1>
       <div class="author-meta">
         <strong>Jinheng Wu</strong> &bull; Additional Materials for College Admissions
       </div>
 
       <div class="lead-statement">
-        &ldquo;Making history playable forced me to ask what disappears when complex events become rules, heroes, and winners. Data does not settle history, but I can use it to locate patterns and absences—then return to the archive to find what the numbers cannot explain.&rdquo;
+        &ldquo;For the game Road to Revolution, I translated American Revolution-era alliances history into character abilities, factions, and victory conditions, then ran over 10,000 Python simulations to test the game balance. Initial trials showed that the General faction won 76.68% of four-player games, highlighting an imbalance and informing proposed revisions. Making history playable forced me to ask what disappears when complex events become rules, heroes, and winners.&rdquo;
       </div>
 
       <p class="core-description">
-        For the tabletop game <strong><em>Road to Revolution</em></strong>, I translated American Revolution-era alliances, hidden factions, and strategic diplomacy into character abilities and victory conditions. To rigorously evaluate the game balance, I built a custom Python simulation engine and executed over <strong>10,000 Monte Carlo trials</strong>, identifying a critical 76.68% win-rate imbalance that guided subsequent design revisions.
+        Data does not settle history, but I can use it to locate patterns and absences—then return to the archive to find what the numbers cannot explain. Below is the <strong>original physical rulebook</strong>, <strong>playable card deck</strong>, <strong>quantitative simulation results</strong>, and <strong>critical historiographical reflections</strong>.
       </p>
 
-      <!-- Fast Snapshot Metrics -->
+      <!-- Snapshot Metrics -->
       <div class="stats-grid">
         <div class="stat-card">
+          <div class="stat-number">137 Cards</div>
+          <div class="stat-label">Complete Deck Across 8 Historical Categories</div>
+        </div>
+        <div class="stat-card">
           <div class="stat-number">10,000</div>
-          <div class="stat-label">Python Monte Carlo Simulations</div>
+          <div class="stat-label">Monte Carlo Simulations Run in Python</div>
         </div>
         <div class="stat-card">
           <div class="stat-number">76.68%</div>
-          <div class="stat-label">Initial General Team Win Rate (Imbalance)</div>
+          <div class="stat-label">Initial General Team Win Rate (Identified Imbalance)</div>
         </div>
         <div class="stat-card">
-          <div class="stat-number">20+ Cards</div>
-          <div class="stat-label">Historic Figures, Weapons & Tactical Events</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">Lossy Compression</div>
-          <div class="stat-label">Theoretical Inquiry into Rules vs. Reality</div>
+          <div class="stat-number">4 Factions</div>
+          <div class="stat-label">Asymmetric Historical Alliances & Objectives</div>
         </div>
       </div>
     </div>
@@ -405,15 +501,107 @@
   <!-- Main Content -->
   <main class="container">
 
-    <!-- Section 1: Selected Card Designs -->
+    <!-- Section 1: Official Game Rulebook (Placed at First Page!) -->
     <section>
-      <h2 class="section-title">1. Selected Cards: Translating History into Mechanics</h2>
+      <h2 class="section-title">1. Official Game Rulebook & Mechanics (游戏规则与原案)</h2>
       <p class="section-subtitle">
-        Curated cards illustrating how diplomatic alliances, military roles, and 18th-century armaments were transformed into gameplay mechanics. Click any card to inspect full artwork and text.
+        Physical rulebook printed on antique parchment styling, outlining card components, asymmetric hidden-role victory conditions, and the tripartite national hero draft. <em>Click images to expand full resolution.</em>
+      </p>
+
+      <!-- Side-by-Side Printed Rulebook Photos -->
+      <div class="rulebook-grid">
+        <div class="rulebook-photo-item" onclick="openModal('assets/rulebook_page_1.jpg', 'Original Rulebook Page 1: Card Components (137 Total), Asymmetric Faction Victory Conditions, and Role Distribution Matrix')">
+          <div class="rulebook-photo-wrap">
+            <img src="assets/rulebook_page_1.jpg" alt="Road to Revolution Rulebook Page 1" loading="lazy">
+          </div>
+          <div class="rulebook-caption">
+            <small>Physical Manuscript &bull; Part 1</small>
+            Deck Composition & Faction Victory Objectives
+          </div>
+        </div>
+
+        <div class="rulebook-photo-item" onclick="openModal('assets/rulebook_page_2.jpg', 'Original Rulebook Page 2: Role Allocation Chart, Character Skill Mechanics (e.g. King George III Growing Madness), and Tri-National Hero Pool Draft')">
+          <div class="rulebook-photo-wrap">
+            <img src="assets/rulebook_page_2.jpg" alt="Road to Revolution Rulebook Page 2" loading="lazy">
+          </div>
+          <div class="rulebook-caption">
+            <small>Physical Manuscript &bull; Part 2</small>
+            Character Skills & 21-Hero Draft Pool System
+          </div>
+        </div>
+      </div>
+
+      <!-- Core Rulebook Summary for Admissions Officers -->
+      <div class="card">
+        <h3 style="font-family: var(--font-serif); font-size: 1.3rem; margin-bottom: 14px;">
+          Game System Summary
+        </h3>
+
+        <!-- Factions Table -->
+        <table class="rules-table">
+          <thead>
+            <tr>
+              <th style="width: 25%;">Faction / Identity</th>
+              <th style="width: 25%;">Historical Role</th>
+              <th>Victory Condition</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="faction-badge faction-general">将军 (General)</span></td>
+              <td>Continental Commander (Washington)</td>
+              <td>Eliminate all Crown/Enemy forces to secure American independence. (Face-up role)</td>
+            </tr>
+            <tr>
+              <td><span class="faction-badge faction-reinforce">援军 (Reinforcement)</span></td>
+              <td>Colonial Militias & French Regulars</td>
+              <td>Protect the General at all costs; shares the General's independence victory condition.</td>
+            </tr>
+            <tr>
+              <td><span class="faction-badge faction-enemy">敌军 (Enemy)</span></td>
+              <td>British Crown Forces & Loyalists</td>
+              <td>Assassinate the General to suppress the revolution and maintain imperial rule.</td>
+            </tr>
+            <tr>
+              <td><span class="faction-badge faction-rebel">叛军 (Rebel)</span></td>
+              <td>Opportunists & Fractured Interests</td>
+              <td>Help the General defeat Enemy forces early, then eliminate the General to stand as sole survivor.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Deck Components Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 18px; font-size: 0.88rem;">
+          <div style="background: var(--surface-subtle); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
+            <strong>8 Card Categories (137 total):</strong><br>
+            &bull; 6 Identity Cards<br>
+            &bull; 26 Character Cards<br>
+            &bull; 42 Basic Cards (Attack/Defend/Food)
+          </div>
+          <div style="background: var(--surface-subtle); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
+            <strong>Equipment & Tactics:</strong><br>
+            &bull; 36 Skill / Event Cards<br>
+            &bull; 7 Weapon Cards (Flintlock/Cannon)<br>
+            &bull; 6 Armor Cards & 14 HP Cards
+          </div>
+          <div style="background: var(--surface-subtle); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
+            <strong>21-Hero Pool Draft:</strong><br>
+            &bull; Britain: 7 historical figures<br>
+            &bull; France: 7 historical figures<br>
+            &bull; America: 12 figures (7 static + 5 random)
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Selected Character & Armament Cards -->
+    <section>
+      <h2 class="section-title">2. Selected Cards: Translating History into Playable Systems</h2>
+      <p class="section-subtitle">
+        Visual translation of diplomatic alliances, military doctrine, and 18th-century armament into character stats and abilities. Click cards to view in full resolution.
       </p>
 
       <div class="cards-grid">
-        <!-- Washington -->
         <div class="card-item" onclick="openModal('assets/washington.jpg', 'George Washington: Continental Commander — Tactical morale and defensive resilience abilities.')">
           <div class="card-thumb-wrap">
             <img src="assets/washington.jpg" alt="George Washington Card" loading="lazy">
@@ -424,7 +612,6 @@
           </div>
         </div>
 
-        <!-- Jefferson -->
         <div class="card-item" onclick="openModal('assets/jefferson.jpg', 'Thomas Jefferson: Diplomatic and legislative draft abilities reflecting the Continental Congress.')">
           <div class="card-thumb-wrap">
             <img src="assets/jefferson.jpg" alt="Thomas Jefferson Card" loading="lazy">
@@ -435,7 +622,6 @@
           </div>
         </div>
 
-        <!-- Franklin -->
         <div class="card-item" onclick="openModal('assets/franklin.jpg', 'Benjamin Franklin: Diplomatic negotiation and foreign court mediation.')">
           <div class="card-thumb-wrap">
             <img src="assets/franklin.jpg" alt="Benjamin Franklin Card" loading="lazy">
@@ -446,8 +632,7 @@
           </div>
         </div>
 
-        <!-- George III -->
-        <div class="card-item" onclick="openModal('assets/george_iii.jpg', 'King George III: Royal authority, coercive imperial acts, and blockades.')">
+        <div class="card-item" onclick="openModal('assets/george_iii.jpg', 'King George III: Royal authority, coercive imperial acts, and the Growing Madness mechanic.')">
           <div class="card-thumb-wrap">
             <img src="assets/george_iii.jpg" alt="King George III Card" loading="lazy">
           </div>
@@ -457,8 +642,7 @@
           </div>
         </div>
 
-        <!-- Cornwallis -->
-        <div class="card-item" onclick="openModal('assets/cornwallis.jpg', 'Charles Cornwallis: British military leadership and Southern theater campaigns.')">
+        <div class="card-item" onclick="openModal('assets/cornwallis.jpg', 'Charles Cornwallis: British military command and defensive positioning.')">
           <div class="card-thumb-wrap">
             <img src="assets/cornwallis.jpg" alt="Charles Cornwallis Card" loading="lazy">
           </div>
@@ -468,8 +652,7 @@
           </div>
         </div>
 
-        <!-- Marie Antoinette -->
-        <div class="card-item" onclick="openModal('assets/marie_antoinette.jpg', 'Marie Antoinette: French court diplomacy and vital naval/resource subsidies.')">
+        <div class="card-item" onclick="openModal('assets/marie_antoinette.jpg', 'Marie Antoinette: French court diplomacy and vital naval/financial subsidies.')">
           <div class="card-thumb-wrap">
             <img src="assets/marie_antoinette.jpg" alt="Marie Antoinette Card" loading="lazy">
           </div>
@@ -479,19 +662,17 @@
           </div>
         </div>
 
-        <!-- Yorktown -->
-        <div class="card-item" onclick="openModal('assets/yorktown.jpg', 'Battle of Yorktown: Decisive combined siege card altering range and alliance win conditions.')">
+        <div class="card-item" onclick="openModal('assets/yorktown.jpg', 'Battle of Yorktown: Decisive combined siege card altering range and alliance victory triggers.')">
           <div class="card-thumb-wrap">
             <img src="assets/yorktown.jpg" alt="Battle of Yorktown Card" loading="lazy">
           </div>
           <div class="card-caption">
-            <span class="card-tag">Historical Event</span>
+            <span class="card-tag">Tactical Event</span>
             Battle of Yorktown (约克敦战役)
           </div>
         </div>
 
-        <!-- Weapons -->
-        <div class="card-item" onclick="openModal('assets/flintlock.jpg', 'Flintlock Musket: Standard revolutionary infantry weapon adjusting attack distance and damage.')">
+        <div class="card-item" onclick="openModal('assets/flintlock.jpg', 'Flintlock Musket: Standard revolutionary infantry firearm modifying attack distance.')">
           <div class="card-thumb-wrap">
             <img src="assets/flintlock.jpg" alt="Flintlock Card" loading="lazy">
           </div>
@@ -503,19 +684,18 @@
       </div>
     </section>
 
-    <!-- Section 2: Quantitative Simulation & Balance Revisions -->
+    <!-- Section 3: Quantitative Simulation & Balance Revisions -->
     <section>
-      <h2 class="section-title">2. Quantitative Simulation & Game Balance</h2>
+      <h2 class="section-title">3. Quantitative Simulation & Game Balance (10,000 Trials)</h2>
       <p class="section-subtitle">
-        Findings from 10,000 automated Python Monte Carlo trials modeling turn flow, weapon ranges, hidden roles, and card utility.
+        Empirical findings from a custom Python Monte Carlo simulation engine executing complete turn loops, equipment math, and hidden-role targeting.
       </p>
 
       <div class="card">
         <h3 style="font-family: var(--font-serif); font-size: 1.25rem; margin-bottom: 14px;">
-          Initial 4-Player Simulation (10,000 Trials)
+          Initial 4-Player Simulation (10,000 Games)
         </h3>
 
-        <!-- General Win rate -->
         <div class="sim-bar-group">
           <div class="sim-label-row">
             <span>General Team (Washington / Continental)</span>
@@ -526,7 +706,6 @@
           </div>
         </div>
 
-        <!-- Enemy Win rate -->
         <div class="sim-bar-group">
           <div class="sim-label-row">
             <span>Enemy Faction (Loyalist / Crown)</span>
@@ -537,7 +716,6 @@
           </div>
         </div>
 
-        <!-- Rebel Win rate -->
         <div class="sim-bar-group">
           <div class="sim-label-row">
             <span>Rebel / Opportunist</span>
@@ -549,17 +727,17 @@
         </div>
 
         <div style="margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 0.94rem; color: var(--text-muted);">
-          <strong style="color: var(--text);">Key Discovery & Iteration:</strong>
-          In 64.5% of games, the death sequence followed <code style="font-family: var(--font-mono); color: var(--accent);">Enemy &rarr; Rebel</code>. The General team enjoyed overwhelming early-game tempo because enemy players bore the brunt of hidden-role targeting. This empirical finding informed key rule adjustments: increasing defensive utility cards (<em>粮, 守</em>), reweighting covert alliance victory conditions, and smoothing the action curve for minority factions.
+          <strong style="color: var(--text);">Simulation Finding:</strong>
+          In 64.5% of games, the death sequence followed <code style="font-family: var(--font-mono); color: var(--accent);">Enemy &rarr; Rebel</code>. The General team enjoyed overwhelming early-game tempo because enemy players bore the brunt of hidden-role targeting before the rebel could pivot. This quantitative diagnosis drove specific balance changes: adjusting defense-to-attack ratios in the deck, enhancing French covert subsidies, and tuning minority faction comeback cards.
         </div>
       </div>
     </section>
 
-    <!-- Section 3: Critical Reflection (Essay Excerpt) -->
+    <!-- Section 4: Critical Reflection (Essay Excerpt) -->
     <section>
-      <h2 class="section-title">3. Critical Reflection: Lossy Compression</h2>
+      <h2 class="section-title">4. Critical Reflection: Lossy Compression</h2>
       <p class="section-subtitle">
-        Excerpt from personal design essay on the tension between historical complexity and systemic simplification.
+        Excerpt from personal design essay reflecting on turning historical reality into rules.
       </p>
 
       <div class="essay-box">
@@ -584,7 +762,7 @@
   <div id="imageModal" class="modal" onclick="closeModal(event)">
     <button class="modal-close" onclick="closeModal(event)">&times;</button>
     <div class="modal-content" onclick="event.stopPropagation()">
-      <img id="modalImg" src="" alt="Enlarged Card View">
+      <img id="modalImg" src="" alt="Enlarged View">
       <div id="modalCaption" class="modal-caption"></div>
     </div>
   </div>
@@ -593,7 +771,7 @@
     <div class="container">
       <p>Jinheng Wu &bull; Road to Revolution &bull; Additional Admissions Material</p>
       <p style="margin-top: 6px; font-size: 0.8rem; color: #9da5b0;">
-        Exploring the intersection of game systems, quantitative modeling, and historical memory.
+        Bridging tabletop game systems, quantitative modeling, and critical historiography.
       </p>
     </div>
   </footer>
