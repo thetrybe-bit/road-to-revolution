@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Road to Revolution — Returning History to Circulation | Jinheng Wu</title>
+  <meta name="description" content="Additional Application Material: American Revolution Card Game Design, 10,000-Game Monte Carlo Python Simulation, and Historiographical Analysis by Jinheng Wu.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fcfbf9;
+      --surface: #ffffff;
+      --surface-subtle: #f7f4ed;
+      --border: #e8e2d8;
+      --text: #1d2125;
+      --text-muted: #5e6672;
+      --accent: #923424;
+      --accent-hover: #78291c;
+      --accent-light: #f9eae6;
+      --blue-accent: #264a7f;
+      --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+      --font-serif: "Newsreader", Charter, "Bitstream Charter", Cambria, Georgia, serif;
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: "JetBrains Mono", Menlo, Consolas, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 80px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      padding: 60px 0 42px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, #f8f5ee 0%, var(--bg) 100%);
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-light);
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.3rem, 5vw, 3.3rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+
+    .author-meta {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .lead-statement {
+      font-family: var(--font-serif);
+      font-size: clamp(1.15rem, 2.4vw, 1.38rem);
+      color: #31373e;
+      line-height: 1.6;
+      border-left: 3px solid var(--accent);
+      padding-left: 20px;
+      margin: 24px 0 20px;
+      background: rgba(146, 52, 36, 0.02);
+    }
+
+    .core-description {
+      font-size: 1.02rem;
+      color: var(--text);
+      max-width: 860px;
+      margin-top: 14px;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 36px 0 10px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-number {
+      font-family: var(--font-serif);
+      font-size: 2.1rem;
+      font-weight: 600;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Section Styling */
+    section {
+      margin-top: 52px;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .section-subtitle {
+      font-size: 0.96rem;
+      color: var(--text-muted);
+      margin-bottom: 22px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    /* Cards Gallery */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .card-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
+      border-color: #cfc6b8;
+    }
+
+    .card-thumb-wrap {
+      width: 100%;
+      height: 290px;
+      background: #f4f0e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .card-thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .card-item:hover .card-thumb-wrap img {
+      transform: scale(1.04);
+    }
+
+    .card-caption {
+      padding: 12px 14px;
+      font-size: 0.85rem;
+      color: var(--text);
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+    }
+
+    .card-tag {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--accent);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 2px;
+    }
+
+    /* Simulation Data Bars */
+    .sim-bar-group {
+      margin: 18px 0;
+    }
+
+    .sim-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .sim-bar-track {
+      width: 100%;
+      height: 10px;
+      background: #eee8de;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .sim-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    .fill-general {
+      background: #923424;
+    }
+
+    .fill-enemy {
+      background: #264a7f;
+    }
+
+    .fill-rebel {
+      background: #d48332;
+    }
+
+    /* Essay blockquote */
+    .essay-box {
+      background: #faf8f3;
+      border-left: 3px solid #d4c8b8;
+      padding: 22px 24px;
+      font-size: 0.98rem;
+      color: #31373e;
+      line-height: 1.75;
+      border-radius: 0 10px 10px 0;
+      margin: 18px 0;
+    }
+
+    .essay-box p + p {
+      margin-top: 14px;
+    }
+
+    /* Lightbox Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(18, 20, 24, 0.92);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      max-width: 90vw;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .modal-content img {
+      max-width: 100%;
+      max-height: 80vh;
+      border-radius: 6px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      object-fit: contain;
+    }
+
+    .modal-caption {
+      color: #f0f0f0;
+      font-size: 0.95rem;
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 28px;
+      color: #ffffff;
+      font-size: 2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+
+    .modal-close:hover {
+      opacity: 1;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 70px;
+      padding-top: 30px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 640px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .card-thumb-wrap {
+        height: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header & Hook -->
+  <header>
+    <div class="container">
+      <span class="badge">Game Design &bull; Python Simulation &bull; Historical Modeling</span>
+      <h1>Road to Revolution: Making History Playable</h1>
+      <div class="author-meta">
+        <strong>Jinheng Wu</strong> &bull; Additional Materials for College Admissions
+      </div>
+
+      <div class="lead-statement">
+        &ldquo;Making history playable forced me to ask what disappears when complex events become rules, heroes, and winners. Data does not settle history, but I can use it to locate patterns and absences—then return to the archive to find what the numbers cannot explain.&rdquo;
+      </div>
+
+      <p class="core-description">
+        For the tabletop game <strong><em>Road to Revolution</em></strong>, I translated American Revolution-era alliances, hidden factions, and strategic diplomacy into character abilities and victory conditions. To rigorously evaluate the game balance, I built a custom Python simulation engine and executed over <strong>10,000 Monte Carlo trials</strong>, identifying a critical 76.68% win-rate imbalance that guided subsequent design revisions.
+      </p>
+
+      <!-- Fast Snapshot Metrics -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">10,000</div>
+          <div class="stat-label">Python Monte Carlo Simulations</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">76.68%</div>
+          <div class="stat-label">Initial General Team Win Rate (Imbalance)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">20+ Cards</div>
+          <div class="stat-label">Historic Figures, Weapons & Tactical Events</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">Lossy Compression</div>
+          <div class="stat-label">Theoretical Inquiry into Rules vs. Reality</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+
+    <!-- Section 1: Selected Card Designs -->
+    <section>
+      <h2 class="section-title">1. Selected Cards: Translating History into Mechanics</h2>
+      <p class="section-subtitle">
+        Curated cards illustrating how diplomatic alliances, military roles, and 18th-century armaments were transformed into gameplay mechanics. Click any card to inspect full artwork and text.
+      </p>
+
+      <div class="cards-grid">
+        <!-- Washington -->
+        <div class="card-item" onclick="openModal('assets/washington.jpg', 'George Washington: Continental Commander — Tactical morale and defensive resilience abilities.')">
+          <div class="card-thumb-wrap">
+            <img src="assets/washington.jpg" alt="George Washington Card" loading="lazy">
+          </div>
+          <div class="card-caption">
+            <span class="card-tag">Continental Faction</span>
+            George Washington (乔治·华盛顿)
+          </div>
+        </div>
+
+        <!-- Jefferson -->
+        <div class="card-item" onclick="openModal('assets/jefferson.jpg', 'Thomas Jefferson: Diplomatic and legislative draft abilities reflecting the Continental Congress.')">
+          <div class="card-thumb-wrap">
+            <img src="assets/jefferson.jpg" alt="Thomas Jefferson Card" loading="lazy">
+          </div>
+          <div class="card-caption">
+            <span class="card-tag">Continental Faction</span>
+            Thomas Jefferson (托马斯·杰斐逊)
+          </div>
+        </div>
+
+        <!-- Franklin -->
+        <div class="card-item" onclick="openModal('assets/franklin.jpg', 'Benjamin Franklin: Diplomatic negotiation and foreign court mediation.')">
+          <div class="card-thumb-wrap">
+            <img src="assets/franklin.jpg" alt="Benjamin Franklin Card" loading="lazy">
+          </div>
+          <div class="card-caption">
+            <span class="card-tag">Diplomacy</span>
+            Benjamin Franklin (本杰明·富兰克林)
+          </div>
+        </div>
+
+        <!-- George III -->
+        <div class="card-item" onclick="openModal('assets/george_iii.jpg', 'King George III: Royal authority, coercive imperial acts, and blockades.')">
+          <div class="card-thumb-wrap">
+            <img src="assets/george_iii.jpg" alt="King George III Card" loading="lazy">
+          </div>
+          <div class="card-caption">
+            <span class="card-tag">Crown Faction</span>
+            King George III (乔治三世)
+          </div>
+        </div>
+
+        <!-- Cornwallis -->
+        <div class="card-item" onclick="openModal('assets/cornwallis.jpg', 'Charles Cornwallis: British military leadership and Southern theater campaigns.')">
+          <div class="card-thumb-wrap">
+            <img src="assets/cornwallis.jpg" alt="Charles Cornwallis Card" loading="lazy">
+          </div>
+          <div class="card-caption">
+            <span class="card-tag">Crown Faction</span>
+            Charles Cornwallis (查尔斯·康沃利斯)
+          </div>
+        </div>
+
+        <!-- Marie Antoinette -->
+        <div class="card-item" onclick="openModal('assets/marie_antoinette.jpg', 'Marie Antoinette: French court diplomacy and vital naval/resource subsidies.')">
+          <div class="card-thumb-wrap">
+            <img src="assets/marie_antoinette.jpg" alt="Marie Antoinette Card" loading="lazy">
+          </div>
+          <div class="card-caption">
+            <span class="card-tag">French Allied Faction</span>
+            Marie Antoinette (玛丽·安托瓦内特)
+          </div>
+        </div>
+
+        <!-- Yorktown -->
+        <div class="card-item" onclick="openModal('assets/yorktown.jpg', 'Battle of Yorktown: Decisive combined siege card altering range and alliance win conditions.')">
+          <div class="card-thumb-wrap">
+            <img src="assets/yorktown.jpg" alt="Battle of Yorktown Card" loading="lazy">
+          </div>
+          <div class="card-caption">
+            <span class="card-tag">Historical Event</span>
+            Battle of Yorktown (约克敦战役)
+          </div>
+        </div>
+
+        <!-- Weapons -->
+        <div class="card-item" onclick="openModal('assets/flintlock.jpg', 'Flintlock Musket: Standard revolutionary infantry weapon adjusting attack distance and damage.')">
+          <div class="card-thumb-wrap">
+            <img src="assets/flintlock.jpg" alt="Flintlock Card" loading="lazy">
+          </div>
+          <div class="card-caption">
+            <span class="card-tag">Armament</span>
+            Flintlock Musket (燧发枪)
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Quantitative Simulation & Balance Revisions -->
+    <section>
+      <h2 class="section-title">2. Quantitative Simulation & Game Balance</h2>
+      <p class="section-subtitle">
+        Findings from 10,000 automated Python Monte Carlo trials modeling turn flow, weapon ranges, hidden roles, and card utility.
+      </p>
+
+      <div class="card">
+        <h3 style="font-family: var(--font-serif); font-size: 1.25rem; margin-bottom: 14px;">
+          Initial 4-Player Simulation (10,000 Trials)
+        </h3>
+
+        <!-- General Win rate -->
+        <div class="sim-bar-group">
+          <div class="sim-label-row">
+            <span>General Team (Washington / Continental)</span>
+            <strong style="color: var(--accent);">76.68% (7,805 wins)</strong>
+          </div>
+          <div class="sim-bar-track">
+            <div class="sim-bar-fill fill-general" style="width: 76.68%;"></div>
+          </div>
+        </div>
+
+        <!-- Enemy Win rate -->
+        <div class="sim-bar-group">
+          <div class="sim-label-row">
+            <span>Enemy Faction (Loyalist / Crown)</span>
+            <strong style="color: var(--blue-accent);">16.58% (1,658 wins)</strong>
+          </div>
+          <div class="sim-bar-track">
+            <div class="sim-bar-fill fill-enemy" style="width: 16.58%;"></div>
+          </div>
+        </div>
+
+        <!-- Rebel Win rate -->
+        <div class="sim-bar-group">
+          <div class="sim-label-row">
+            <span>Rebel / Opportunist</span>
+            <strong style="color: #d48332;">5.33% (533 wins)</strong>
+          </div>
+          <div class="sim-bar-track">
+            <div class="sim-bar-fill fill-rebel" style="width: 5.33%;"></div>
+          </div>
+        </div>
+
+        <div style="margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 0.94rem; color: var(--text-muted);">
+          <strong style="color: var(--text);">Key Discovery & Iteration:</strong>
+          In 64.5% of games, the death sequence followed <code style="font-family: var(--font-mono); color: var(--accent);">Enemy &rarr; Rebel</code>. The General team enjoyed overwhelming early-game tempo because enemy players bore the brunt of hidden-role targeting. This empirical finding informed key rule adjustments: increasing defensive utility cards (<em>粮, 守</em>), reweighting covert alliance victory conditions, and smoothing the action curve for minority factions.
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Critical Reflection (Essay Excerpt) -->
+    <section>
+      <h2 class="section-title">3. Critical Reflection: Lossy Compression</h2>
+      <p class="section-subtitle">
+        Excerpt from personal design essay on the tension between historical complexity and systemic simplification.
+      </p>
+
+      <div class="essay-box">
+        <p>
+          &ldquo;When I designed a card game about the American Revolution, I thought the difficult part would be balancing the game. Instead, I became stuck on a much stranger problem: <strong>how do I turn a real person into a rule?</strong>
+        </p>
+        <p>
+          For an event like the Boston Massacre, a card needs to produce a clear effect. Someone gains an advantage, someone loses one, and the game continues. But the real event did not happen that neatly. The five people who died had different lives, reasons for being there, and experiences that could not fit into one line of game text. The better I made the rule, the more I noticed what the rule had removed.
+        </p>
+        <p>
+          I started thinking of this as putting knowledge &lsquo;into water.&rsquo; A historical narrative, a theory, or a model can look complete when it stays on paper. Once I put it into another situation—a game, a conversation, or something I actually experience—it starts to leak. The gaps become easier to see.
+        </p>
+        <p>
+          This is also why I have become interested in the idea of <strong>lossy compression</strong>. We compress complicated things all the time because we have to. A game compresses history into mechanics. Statistics compress experience into numbers... <strong>Data does not settle history, but I can use it to locate patterns and absences—then return to the archive to find what the numbers cannot explain.</strong>&rdquo;
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal for Lightbox Viewer -->
+  <div id="imageModal" class="modal" onclick="closeModal(event)">
+    <button class="modal-close" onclick="closeModal(event)">&times;</button>
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <img id="modalImg" src="" alt="Enlarged Card View">
+      <div id="modalCaption" class="modal-caption"></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>Jinheng Wu &bull; Road to Revolution &bull; Additional Admissions Material</p>
+      <p style="margin-top: 6px; font-size: 0.8rem; color: #9da5b0;">
+        Exploring the intersection of game systems, quantitative modeling, and historical memory.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    function openModal(src, caption) {
+      document.getElementById('modalImg').src = src;
+      document.getElementById('modalCaption').innerText = caption;
+      document.getElementById('imageModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(e) {
+      document.getElementById('imageModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>
